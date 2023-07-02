@@ -15,7 +15,7 @@ export function SummaryStep({ form }: SummaryStepProps) {
   return (
     <div>
       <h3 className="font-bold text-lg">
-        Here's a summary of the info you provided
+        Here&apos;s a summary of the info you provided
       </h3>
       <div className="my-2">
         <p className="font-bold text-md">Contact info</p>

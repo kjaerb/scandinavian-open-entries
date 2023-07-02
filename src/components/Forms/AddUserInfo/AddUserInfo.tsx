@@ -88,8 +88,8 @@ function AddUserInfo({ userDoc, userDocData }: StepsContainerProps) {
         <DialogHeader>
           <DialogTitle>User information</DialogTitle>
           <DialogDescription>
-            It seems that we're missing some information about you. Please fill
-            out the form
+            It seems that we&apos;re missing some information about you. Please
+            fill out the form
           </DialogDescription>
         </DialogHeader>
         <Form {...userInfoForm}>
