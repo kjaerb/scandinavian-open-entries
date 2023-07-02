@@ -7,10 +7,7 @@ interface SummaryStepProps {
 }
 
 export function SummaryStep({ form }: SummaryStepProps) {
-  const {
-    formState: {},
-    getValues,
-  } = form;
+  const { getValues } = form;
 
   return (
     <div>

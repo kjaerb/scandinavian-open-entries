@@ -3,6 +3,7 @@ import { z } from "zod";
 export const userInfoSchema = z.object({
   name: z.string().min(2).max(50),
   contactEmail: z.string().email(),
+  email: z.string().email().optional(),
   phone: z.string().min(2).max(50),
   country: z.string().min(2).max(50),
   organization: z

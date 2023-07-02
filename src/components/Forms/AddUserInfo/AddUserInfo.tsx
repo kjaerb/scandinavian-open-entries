@@ -46,10 +46,6 @@ function AddUserInfo({ userDoc, userDocData }: StepsContainerProps) {
 
   const { handleSubmit, reset } = userInfoForm;
 
-  useEffect(() => {
-    reset(userDocData);
-  }, [userDocData]);
-
   async function onSubmit(data: UserInfoSchema) {
     try {
       setIsUploadingData(true);
@@ -68,13 +64,17 @@ function AddUserInfo({ userDoc, userDocData }: StepsContainerProps) {
   }
 
   useEffect(() => {
-    if (auth && userDoc) {
-      const parsedData = userInfoSchema.safeParse(userDoc.data());
+    reset(userDocData);
+  }, [userDocData]);
+
+  useEffect(() => {
+    if (auth && userDocData) {
+      const parsedData = userInfoSchema.safeParse(userDocData);
       if (!parsedData.success) {
         setIsOpen(true);
       }
     }
-  }, [auth, userDoc]);
+  }, [auth, userDocData]);
 
   const stepComponent: Record<string, React.ReactNode> = {
     1: <ContactInfoStep form={userInfoForm} />,
