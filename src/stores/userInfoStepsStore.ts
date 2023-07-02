@@ -4,26 +4,29 @@ interface UserInfoStepsStoreProps {
   currentStep: number;
   incrementStep: () => void;
   decrementStep: () => void;
-  resetStep: () => void;
+  isUploadingData: boolean;
+  setIsUploadingData: (isUploadingData: boolean) => void;
 }
 
 const userInfoStepsStore = create<UserInfoStepsStoreProps>((set) => ({
-  currentStep: 0,
+  currentStep: 1,
   incrementStep: () =>
     set((state) => {
-      if (state.currentStep < 3) {
+      if (state.currentStep < 4) {
         return { currentStep: state.currentStep + 1 };
       }
       return state;
     }),
   decrementStep: () =>
     set((state) => {
-      if (state.currentStep > 0) {
+      if (state.currentStep > 1) {
         return { currentStep: state.currentStep - 1 };
       }
       return state;
     }),
-  resetStep: () => set({ currentStep: 0 }),
+
+  isUploadingData: false,
+  setIsUploadingData: (isUploadingData: boolean) => set({ isUploadingData }),
 }));
 
 export default userInfoStepsStore;

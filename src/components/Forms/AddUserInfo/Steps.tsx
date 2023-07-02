@@ -41,7 +41,7 @@ export default function Steps({}: StepsProps) {
                     step.id < currentStep &&
                       "w-full transition-all duration-200 bg-indigo-800",
                     step.id === currentStep &&
-                      "w-1/2 transition-all duration-200 bg-gray-500",
+                      "w-full transition-all duration-200 bg-green-500",
                   ])}
                 ></div>
               </div>

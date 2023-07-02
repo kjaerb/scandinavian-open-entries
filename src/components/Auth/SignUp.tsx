@@ -111,7 +111,11 @@ export function SignUp({}: SignUpProps) {
                 <FormItem>
                   <FormLabel>Confirm Password</FormLabel>
                   <FormControl>
-                    <Input type="password" placeholder="Password" {...field} />
+                    <Input
+                      type="new-password"
+                      placeholder="Repeat password"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

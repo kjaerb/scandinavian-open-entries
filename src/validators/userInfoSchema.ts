@@ -2,11 +2,19 @@ import { z } from "zod";
 
 export const userInfoSchema = z.object({
   name: z.string().min(2).max(50),
-  email: z.string().email(),
+  contactEmail: z.string().email(),
   phone: z.string().min(2).max(50),
   country: z.string().min(2).max(50),
-  club: z.string().min(2).max(50).optional(),
-  federation: z.string().min(2).max(50).optional(),
+  organization: z
+    .object({
+      club: z.string().optional(),
+      federation: z.string().optional(),
+    })
+    .partial()
+    .refine(
+      (data) => !!data.club || !!data.federation,
+      "Either club or federation must be provided"
+    ),
 });
 
 export type UserInfoSchema = z.infer<typeof userInfoSchema>;
