@@ -10,9 +10,9 @@ export function GoogleAuth() {
   }
 
   return (
-    <Button className="w-full" onClick={signInWithGoogle}>
+    <Button className="w-full h-12 py-3 shadow-md" onClick={signInWithGoogle}>
       <Icons.Google className="h-full" />
-      <p className="ml-2">Google</p>
+      <p className="ml-2">Continue with Google</p>
     </Button>
   );
 }

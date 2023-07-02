@@ -72,9 +72,9 @@ export function SignUp({}: SignUpProps) {
       <Form {...signUpForm}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <CardHeader>
-            <CardTitle className="mx-auto">Sign In</CardTitle>
+            <CardTitle className="mx-auto">Sign Up</CardTitle>
             <CardDescription className="mx-auto pt-2 text-center">
-              If you already have an account, please sign in
+              If you do not have an account, please sign up.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">

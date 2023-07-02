@@ -19,12 +19,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <main className="max-w-6xl w-full px-2 md:px-0 h-screen min-h-screen mx-auto">
-          <Header />
-          {children}
-        </main>
+        <>
+          <main className="max-w-6xl w-full px-2 sm:px-4 h-screen min-h-screen mx-auto">
+            <>
+              <Header />
+              {children}
+            </>
+          </main>
 
-        <Toaster />
+          <Toaster />
+        </>
       </body>
     </html>
   );
