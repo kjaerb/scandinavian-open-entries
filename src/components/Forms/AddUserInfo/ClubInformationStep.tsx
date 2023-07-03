@@ -15,6 +15,8 @@ interface ClubInformationStepProps {
 }
 
 export function ClubInformationStep({ form }: ClubInformationStepProps) {
+  const { getValues } = form;
+
   return (
     <div>
       <FormField
@@ -31,7 +33,11 @@ export function ClubInformationStep({ form }: ClubInformationStepProps) {
         )}
       />
       <div className="pt-2">
-        <Tabs defaultValue="club">
+        <Tabs
+          defaultValue={
+            getValues("organization.federation") ? "federation" : "club"
+          }
+        >
           <p className="">Chose either club or federation</p>
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="club">Club</TabsTrigger>

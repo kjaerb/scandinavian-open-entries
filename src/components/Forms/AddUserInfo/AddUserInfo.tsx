@@ -16,32 +16,25 @@ import { ContactInfoStep } from "./ContactInfoStep";
 import { ClubInformationStep } from "./ClubInformationStep";
 import { SummaryStep } from "./SummaryStep";
 import { DialogDescription } from "@radix-ui/react-dialog";
-import {
-  DocumentData,
-  DocumentSnapshot,
-  doc,
-  setDoc,
-} from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { authentication, db } from "@/lib/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useEffect, useMemo, useState } from "react";
+import { useDocument } from "react-firebase-hooks/firestore";
+import { useEffect, useState } from "react";
 
-interface StepsContainerProps {
-  userDoc: DocumentSnapshot<DocumentData> | undefined;
-  userDocData: DocumentData | undefined;
-}
+interface StepsContainerProps {}
 
-function AddUserInfo({ userDoc, userDocData }: StepsContainerProps) {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-
+function AddUserInfo({}: StepsContainerProps) {
   const { currentStep, setIsUploadingData } = userInfoStepsStore();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [auth, isLoading] = useAuthState(authentication);
+
+  const userDocRef = doc(db, `users/${auth?.uid}`);
+  const [userDoc, userDocIsLoading] = useDocument(userDocRef);
+  const userDocData = userDoc?.data() as Partial<UserInfoSchema>;
 
   const userInfoForm = useForm<UserInfoSchema>({
     resolver: zodResolver(userInfoSchema),
-    defaultValues: useMemo(() => {
-      return userDocData;
-    }, [userDocData]),
   });
 
   const { handleSubmit, reset } = userInfoForm;
@@ -53,8 +46,7 @@ function AddUserInfo({ userDoc, userDocData }: StepsContainerProps) {
 
       userInfoSchema.parse(data);
 
-      const userDoc = doc(db, `users/${auth?.uid}`);
-      await setDoc(userDoc, data, { merge: true });
+      await setDoc(userDocRef, data, { merge: true });
       setIsOpen(false);
     } catch (error) {
       console.error(error);
@@ -64,8 +56,17 @@ function AddUserInfo({ userDoc, userDocData }: StepsContainerProps) {
   }
 
   useEffect(() => {
-    reset(userDocData);
-  }, [userDocData]);
+    reset({
+      name: userDocData?.name ?? "",
+      contactEmail: userDocData?.contactEmail ?? "",
+      phone: userDocData?.phone ?? "",
+      country: userDocData?.country ? userDocData?.country : "",
+      organization: {
+        club: userDocData?.organization?.club ?? "",
+        federation: userDocData?.organization?.federation ?? "",
+      },
+    });
+  }, [userDocIsLoading]);
 
   useEffect(() => {
     if (auth && userDocData) {
