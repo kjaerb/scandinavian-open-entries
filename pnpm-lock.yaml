@@ -59,6 +59,9 @@ dependencies:
   firebase:
     specifier: ^9.23.0
     version: 9.23.0(encoding@0.1.13)
+  firebase-admin:
+    specifier: ^11.9.0
+    version: 11.9.0(encoding@0.1.13)
   firebase-functions:
     specifier: ^4.4.1
     version: 4.4.1(encoding@0.1.13)(firebase-admin@11.9.0)
@@ -3434,7 +3437,7 @@ packages:
       fast-text-encoding: 1.0.6
       google-auth-library: 8.9.0(encoding@0.1.13)
       is-stream-ended: 0.1.4
-      node-fetch: 2.6.7(encoding@0.1.13)
+      node-fetch: 2.6.12(encoding@0.1.13)
       object-hash: 3.0.0
       proto3-json-serializer: 1.1.1
       protobufjs: 7.2.3
@@ -5311,7 +5314,7 @@ packages:
     dependencies:
       http-proxy-agent: 5.0.0
       https-proxy-agent: 5.0.1
-      node-fetch: 2.6.7(encoding@0.1.13)
+      node-fetch: 2.6.12(encoding@0.1.13)
       stream-events: 1.0.5
       uuid: 9.0.0
     transitivePeerDependencies:
