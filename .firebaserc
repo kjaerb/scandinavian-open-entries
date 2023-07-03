@@ -2,6 +2,9 @@
   "projects": {
     "default": "scandinavian-open-entried-dev",
     "dev": "scandinavian-open-entried-dev",
-    "prod": "scandinavian-open-entried-prod"
-  }
+    "prod": "scandinavian-open-entried-prod",
+    "scandinavian-open-entries-prod": "scandinavian-open-entried-prod"
+  },
+  "targets": {},
+  "etags": {}
 }

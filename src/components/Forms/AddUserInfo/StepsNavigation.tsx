@@ -29,12 +29,13 @@ export function StepsNavigation({ children }: StepsNavigationProps) {
     <div>
       <Steps />
       <div className="py-4">{children}</div>
-      <DialogFooter>
+      <DialogFooter className="space-y-4 md:space-y-0">
         <Button
           onClick={decrementStep}
           variant={"secondary"}
           disabled={currentStep === 0}
           type="button"
+          className="mt-4 md:mt-0"
         >
           Previous
         </Button>
