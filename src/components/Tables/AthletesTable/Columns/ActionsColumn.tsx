@@ -35,7 +35,7 @@ export const actionsColumn: ColumnDef<Athlete> = {
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuLabel>
-              <AddAthleteForm defaultValues={athlete}>
+              <AddAthleteForm action="edit" defaultValues={athlete}>
                 <span className="w-full text-left cursor-pointer font-normal pb-2">
                   Change athlete
                 </span>

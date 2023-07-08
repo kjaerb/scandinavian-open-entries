@@ -15,7 +15,13 @@ const db = admin.firestore();
 
 export const addUserAccount = functions.auth.user().onCreate((user) => {
   const userRef = db.collection("users").doc(user.uid);
-  return userRef.set(JSON.parse(JSON.stringify(user)));
+
+  const userWithRoles = {
+    ...user,
+    roles: ["user"],
+  };
+
+  return userRef.set(JSON.parse(JSON.stringify(userWithRoles)));
 });
 
 export const deleteUserAccount = functions.auth.user().onDelete((user) => {

@@ -64,7 +64,7 @@ export function AthleteTable<TAthlete, TValue>({
     <div className="px-2 py-2">
       <div className="flex items-end pb-4">
         <div>
-          <AddAthleteForm className="mb-2 w-full" />
+          <AddAthleteForm action="add" className="mb-2 w-full" />
           <input
             placeholder="Filter name..."
             value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}

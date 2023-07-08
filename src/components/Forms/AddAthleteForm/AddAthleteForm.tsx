@@ -18,18 +18,20 @@ import { competition } from "@/types/Competition";
 import { gender } from "@/types/Gender";
 import { ComponentProps, useRef, useState } from "react";
 import { Loading } from "@/components/ui/Loading";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 import { authentication, db } from "@/lib/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { cn } from "@/lib/utils";
 
 interface AddAthleteFormProps extends ComponentProps<"div"> {
   defaultValues?: Athlete;
+  action: "add" | "edit";
   children?: React.ReactNode;
 }
 
 export function AddAthleteForm({
   defaultValues,
+  action = "add",
   children = <Button>Add athlete</Button>,
   className,
   ...props
@@ -55,12 +57,19 @@ export function AddAthleteForm({
       if (!user) throw new Error("User is not authenticated");
       setisLoading(true);
 
-      const athleteDocRef = collection(db, "athletes");
+      if (action === "add") {
+        const athleteDocRef = collection(db, "athletes");
 
-      await addDoc(athleteDocRef, {
-        ...data,
-        user: user.uid,
-      });
+        await addDoc(athleteDocRef, {
+          ...data,
+          user: user.uid,
+        });
+      } else if (action === "edit") {
+        if (!defaultValues?.docId) throw new Error("No docId found on athlete");
+
+        const athleteDocRef = doc(db, "athletes", defaultValues.docId);
+        await setDoc(athleteDocRef, data, { merge: true });
+      }
 
       setisLoading(false);
       closeBtnRef.current?.click();
