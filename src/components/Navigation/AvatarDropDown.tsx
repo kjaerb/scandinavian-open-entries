@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
 
-import { InitialsAvatar } from "@/components/Avatar/Avatar";
+import { AvatarImg } from "@/components/Avatar/Avatar";
 import { SignOut } from "@/components/Auth/SignOut";
 import userInfoStore from "@/stores/userInfoStore";
 
@@ -21,7 +21,7 @@ export function AvatarDropDown({}: AvatarDropDownProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <InitialsAvatar />
+        <AvatarImg />
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuLabel>

@@ -9,6 +9,8 @@ import {
 } from "@/components/ui/DropdownMenu";
 import { Button } from "@/components/ui/Button";
 import { MoreHorizontal } from "lucide-react";
+import { AddAthleteForm } from "@/components/Forms/AddAthleteForm/AddAthleteForm";
+import { DeleteAthleteModal } from "@/components/Modals/DeleteAthleteModal";
 
 export const actionsColumn: ColumnDef<Athlete> = {
   id: "actions",
@@ -16,6 +18,8 @@ export const actionsColumn: ColumnDef<Athlete> = {
     return <></>;
   },
   cell: ({ row }) => {
+    const athlete = row.original;
+
     return (
       <div className="flex justify-end items-center">
         <DropdownMenu>
@@ -30,6 +34,16 @@ export const actionsColumn: ColumnDef<Athlete> = {
           <DropdownMenuContent>
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
+            <DropdownMenuLabel>
+              <AddAthleteForm defaultValues={athlete}>
+                <span className="w-full text-left cursor-pointer font-normal pb-2">
+                  Change athlete
+                </span>
+              </AddAthleteForm>
+            </DropdownMenuLabel>
+            <DropdownMenuLabel>
+              <DeleteAthleteModal athlete={athlete} />
+            </DropdownMenuLabel>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

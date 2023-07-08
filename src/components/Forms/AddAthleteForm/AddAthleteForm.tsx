@@ -1,5 +1,6 @@
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogFooter,
   DialogHeader,
@@ -15,13 +16,31 @@ import { SelectField } from "./SelectField";
 import { Button } from "@/components/ui/Button";
 import { competition } from "@/types/Competition";
 import { gender } from "@/types/Gender";
+import { ComponentProps, useRef, useState } from "react";
+import { Loading } from "@/components/ui/Loading";
+import { addDoc, collection } from "firebase/firestore";
+import { authentication, db } from "@/lib/firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { cn } from "@/lib/utils";
 
-interface AddAthleteFormProps {}
+interface AddAthleteFormProps extends ComponentProps<"div"> {
+  defaultValues?: Athlete;
+  children?: React.ReactNode;
+}
 
-export function AddAthleteForm({}: AddAthleteFormProps) {
+export function AddAthleteForm({
+  defaultValues,
+  children = <Button>Add athlete</Button>,
+  className,
+  ...props
+}: AddAthleteFormProps) {
+  const [isLoading, setisLoading] = useState<boolean>(false);
+  const [user] = useAuthState(authentication);
+  const closeBtnRef = useRef<HTMLButtonElement>(null);
+
   const addAthleteForm = useForm<Athlete>({
     resolver: zodResolver(athleteSchema),
-    defaultValues: {
+    defaultValues: defaultValues ?? {
       name: "",
       competition: "",
       dob: new Date(),
@@ -29,25 +48,42 @@ export function AddAthleteForm({}: AddAthleteFormProps) {
     },
   });
 
+  const { reset: resetForm } = addAthleteForm;
+
   async function handleSubmitAthlete(data: Athlete) {
     try {
-      console.log(data);
+      if (!user) throw new Error("User is not authenticated");
+      setisLoading(true);
+
+      const athleteDocRef = collection(db, "athletes");
+
+      await addDoc(athleteDocRef, {
+        ...data,
+        user: user.uid,
+      });
+
+      setisLoading(false);
+      closeBtnRef.current?.click();
+      resetForm();
     } catch (error) {
       console.error(error);
+    } finally {
+      setisLoading(false);
     }
   }
-  const { getValues } = addAthleteForm;
 
   return (
-    <div className="my-4 border rounded-md shadow-md">
+    <div className={cn(className)} {...props}>
       <Dialog>
-        <DialogTrigger>Open here</DialogTrigger>
+        <DialogTrigger asChild>{children}</DialogTrigger>
         <DialogContent>
           <Form {...addAthleteForm}>
             <form onSubmit={addAthleteForm.handleSubmit(handleSubmitAthlete)}>
-              <DialogHeader>Add an athlete to the competition</DialogHeader>
+              <DialogHeader className="font-bold">
+                Add an athlete to the competition
+              </DialogHeader>
               <div className="mb-4">
-                <div className="">
+                <div className="grid grid-cols-1 md:grid-cols-2 space-x-4 mt-4">
                   <AthleteFormField
                     form={addAthleteForm}
                     name="name"
@@ -56,8 +92,7 @@ export function AddAthleteForm({}: AddAthleteFormProps) {
                       placeholder: "Enter the athlete's name",
                     }}
                   />
-                </div>
-                <div>
+
                   <DateField
                     form={addAthleteForm}
                     name="dob"
@@ -67,15 +102,14 @@ export function AddAthleteForm({}: AddAthleteFormProps) {
                     }}
                   />
                 </div>
-                <div>
+                <div className="grid grid-cols-1 md:grid-cols-2 space-x-4 mt-4">
                   <SelectField
                     form={addAthleteForm}
                     name="gender"
                     selects={gender}
                     metaData={{ label: "Gender", placeholder: "Select gender" }}
                   />
-                </div>
-                <div>
+
                   <SelectField
                     form={addAthleteForm}
                     name="competition"
@@ -88,10 +122,12 @@ export function AddAthleteForm({}: AddAthleteFormProps) {
                 </div>
               </div>
               <DialogFooter>
-                <Button type="button" variant="secondary">
-                  Cancel
+                <DialogClose type="button" ref={closeBtnRef} asChild>
+                  <Button variant={"secondary"}>Close</Button>
+                </DialogClose>
+                <Button disabled={isLoading} type="submit">
+                  {isLoading ? <Loading /> : "Add athlete"}
                 </Button>
-                <Button type="submit">Submit</Button>
               </DialogFooter>
             </form>
           </Form>

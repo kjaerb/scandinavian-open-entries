@@ -1,14 +1,13 @@
 "use client";
 
 import { AuthForm } from "@/components/Auth/AuthForm";
-import { AddAthleteForm } from "@/components/Forms/AddAthleteForm/AddAthleteForm";
 import { AthletesTable } from "@/components/Tables/AthletesTable/AthletesTable";
-import { Separator } from "@/components/ui/Separator";
 import { authentication } from "@/lib/firebase";
+
 import { useAuthState } from "react-firebase-hooks/auth";
 
 export default function Home() {
-  const [auth, isLoading] = useAuthState(authentication);
+  const [auth, authIsLoading] = useAuthState(authentication);
 
   return (
     <div>
@@ -18,8 +17,8 @@ export default function Home() {
             <h1 className="text-2xl pb-4">
               Welcome {auth.displayName ? auth.displayName : auth.email}
             </h1>
-            <AddAthleteForm />
-            <AthletesTable athletes={undefined} />
+
+            <AthletesTable />
           </div>
         </>
       ) : (
@@ -27,7 +26,7 @@ export default function Home() {
           <div
             className="text-center md:text-left pr-0 md:pr-8 mb-12 md:mb-0"
             //@ts-ignore
-            style={{ "text-wrap": "balance" }}
+            style={{ textWrap: "balance" }}
           >
             <h1 className="text-2xl pb-4 ">
               Welcome to the 2024 Scandinavian Open competition
@@ -41,7 +40,7 @@ export default function Home() {
               To get started, please sign in, using one of our providers
             </p>
           </div>
-          <AuthForm className="mx-auto" isLoading={isLoading} />
+          <AuthForm className="mx-auto" isLoading={authIsLoading} />
         </div>
       )}
     </div>

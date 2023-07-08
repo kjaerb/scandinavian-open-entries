@@ -39,34 +39,31 @@ export function SelectField<TData extends FieldValues>({
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem>
+        <FormItem className="my-1">
           <FormLabel>{label}</FormLabel>
-          <Select
-            onValueChange={() => field.onChange(field.value)}
-            defaultValue={field.value}
-          >
-            <FormControl>
+          <FormControl>
+            <Select
+              // @ts-ignore
+              onValueChange={field.onChange}
+              defaultValue={field.value}
+            >
               <SelectTrigger>
-                <SelectValue
-                  defaultValue={field.value}
-                  placeholder={placeholder}
-                >
-                  <span className="text-gray-500">{placeholder}</span>
-                </SelectValue>
+                <SelectValue placeholder={placeholder} />
               </SelectTrigger>
-            </FormControl>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>{label}</SelectLabel>
-                {selects.map((select, index) => (
-                  <SelectItem key={index} value={select}>
-                    {select}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-
+              <SelectContent>
+                <SelectGroup>
+                  {selects.map((select, i) => (
+                    <SelectItem
+                      key={`${select}.${i}`}
+                      value={select.toString()}
+                    >
+                      {select}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </FormControl>
           <FormMessage />
         </FormItem>
       )}

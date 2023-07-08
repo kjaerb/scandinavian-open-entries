@@ -12,9 +12,7 @@ import {
   getPaginationRowModel,
   VisibilityState,
 } from "@tanstack/react-table";
-
 import { useState } from "react";
-
 import { Button } from "@/components/ui/Button";
 import {
   Table,
@@ -30,6 +28,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
+import { AddAthleteForm } from "@/components/Forms/AddAthleteForm/AddAthleteForm";
 
 interface OrdersTableProps<TAthlete, TValue> {
   columns: ColumnDef<TAthlete, TValue>[];
@@ -62,14 +61,10 @@ export function AthleteTable<TAthlete, TValue>({
   });
 
   return (
-    <div className="px-2 py-2 ">
-      <div>
-        <p>
-          {data.length} athlete{data.length > 1 && "s"}
-        </p>
-      </div>
-      <div className="flex items-center py-4">
+    <div className="px-2 py-2">
+      <div className="flex items-end pb-4">
         <div>
+          <AddAthleteForm className="mb-2 w-full" />
           <input
             placeholder="Filter name..."
             value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
@@ -159,23 +154,30 @@ export function AthleteTable<TAthlete, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          Previous
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          Next
-        </Button>
+      <div className="flex items-center justify-between py-4">
+        <div>
+          <p>
+            {data.length} athlete{data.length > 1 && "s"}
+          </p>
+        </div>
+        <div className="space-x-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            Previous
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            Next
+          </Button>
+        </div>
       </div>
     </div>
   );
