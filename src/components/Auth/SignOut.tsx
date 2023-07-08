@@ -3,8 +3,8 @@
 import { signOut } from "firebase/auth";
 import { Button } from "@/components/ui/Button";
 import { authentication } from "@/lib/firebase";
-import Link from "next/link";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { cn } from "@/lib/utils";
 
 interface SignOutProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
@@ -15,13 +15,12 @@ export function SignOut({ className, ...props }: SignOutProps) {
 
   return (
     <Button
-      className={className}
+      className={cn(className)}
       {...props}
       disabled={!user}
       onClick={async () => await signOut(authentication)}
-      asChild={true}
     >
-      <p>Sign Out</p>
+      Sign Out
     </Button>
   );
 }

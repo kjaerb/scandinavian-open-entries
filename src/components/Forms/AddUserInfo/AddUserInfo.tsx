@@ -3,6 +3,7 @@
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/Dialog";
@@ -15,23 +16,25 @@ import { Form } from "@/components/ui/Form";
 import { ContactInfoStep } from "./ContactInfoStep";
 import { ClubInformationStep } from "./ClubInformationStep";
 import { SummaryStep } from "./SummaryStep";
-import { DialogDescription } from "@radix-ui/react-dialog";
 import { doc, setDoc } from "firebase/firestore";
 import { authentication, db } from "@/lib/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useDocument } from "react-firebase-hooks/firestore";
 import { useEffect, useState } from "react";
+import { FirebaseUserDoc } from "@/types/User";
+import userInfoStore from "@/stores/userInfoStore";
 
-interface StepsContainerProps {}
+type StepsContainerProps = {};
 
 function AddUserInfo({}: StepsContainerProps) {
+  const { setUser } = userInfoStore();
   const { currentStep, setIsUploadingData } = userInfoStepsStore();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [auth, isLoading] = useAuthState(authentication);
 
   const userDocRef = doc(db, `users/${auth?.uid}`);
   const [userDoc, userDocIsLoading] = useDocument(userDocRef);
-  const userDocData = userDoc?.data() as Partial<UserInfoSchema>;
+  const userDocData = userDoc?.data() as FirebaseUserDoc; // todo fix type
 
   const userInfoForm = useForm<UserInfoSchema>({
     resolver: zodResolver(userInfoSchema),
@@ -46,7 +49,10 @@ function AddUserInfo({}: StepsContainerProps) {
 
       userInfoSchema.parse(data);
 
-      await setDoc(userDocRef, data, { merge: true });
+      await setDoc(userDocRef, { contactInfo: data }, { merge: true });
+
+      setUser(data);
+
       setIsOpen(false);
     } catch (error) {
       console.error(error);
@@ -56,24 +62,24 @@ function AddUserInfo({}: StepsContainerProps) {
   }
 
   useEffect(() => {
+    const contactInfo = userDocData?.contactInfo;
+    setUser(contactInfo);
     reset({
-      name: userDocData?.name ?? "",
-      contactEmail: userDocData?.contactEmail ?? "",
-      phone: userDocData?.phone ?? "",
-      country: userDocData?.country ? userDocData?.country : "",
+      name: contactInfo?.name ?? "",
+      contactEmail: contactInfo?.contactEmail ?? "",
+      phone: contactInfo?.phone ?? "",
+      country: contactInfo?.country ?? "",
       organization: {
-        club: userDocData?.organization?.club ?? "",
-        federation: userDocData?.organization?.federation ?? "",
+        club: contactInfo?.organization?.club ?? "",
+        federation: contactInfo?.organization?.federation ?? "",
       },
     });
   }, [userDocIsLoading]);
 
   useEffect(() => {
     if (auth && userDocData) {
-      const parsedData = userInfoSchema.safeParse(userDocData);
-      if (!parsedData.success) {
-        setIsOpen(true);
-      }
+      const parsedData = userInfoSchema.safeParse(userDocData.contactInfo);
+      parsedData.success ? setIsOpen(false) : setIsOpen(true);
     }
   }, [auth, userDocData]);
 

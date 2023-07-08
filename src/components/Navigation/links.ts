@@ -3,7 +3,7 @@ interface RouterProps {
   name: string;
 }
 
-export const router: RouterProps[] = [
+export const router: Readonly<RouterProps[]> = [
   {
     path: "/dashboard",
     name: "Dashboard",
@@ -16,4 +16,4 @@ export const router: RouterProps[] = [
     path: "/about",
     name: "About",
   },
-];
+] as const;

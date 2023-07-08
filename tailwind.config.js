@@ -7,6 +7,7 @@ module.exports = {
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
 	],
+
   theme: {
     container: {
       center: true,
@@ -14,6 +15,9 @@ module.exports = {
       screens: {
         "2xl": "1400px",
       },
+    },
+    textWrap: {
+      "wrap-balance": "text-wrap: balance;",
     },
     extend: {
       height: {

@@ -2,7 +2,6 @@
 
 import { Athlete } from "@/validators/athleteSchema";
 import { ColumnDef } from "@tanstack/react-table";
-
 import { dobColumn } from "./Columns/DobColumn";
 import { nameColumn } from "./Columns/NameColumns";
 import { genderColumn } from "./Columns/GenderColumn";

@@ -11,7 +11,7 @@ export const dobColumn: ColumnDef<Athlete> = {
         onClick={() => column.toggleSorting(column.getIsSorted() == "asc")}
       >
         Date of Birth
-        <ArrowUpDown className="ml-2 h-4 w-4" />
+        <ArrowUpDown className="ml-2" />
       </button>
     );
   },

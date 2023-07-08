@@ -1,5 +1,3 @@
-"use client";
-
 import { authentication } from "@/lib/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { SignOut } from "../Auth/SignOut";
@@ -7,13 +5,15 @@ import { router } from "./links";
 import Link from "next/link";
 
 import { MobileNav } from "./MobileNav";
+import { AvatarDropDown } from "./AvatarDropDown";
 
 interface NavigationProps {}
 
 export function Navigation({}: NavigationProps) {
   return (
     <>
-      <div className="hidden md:flex">
+      <AvatarDropDown />
+      {/* <div className="hidden md:flex">
         <ul className="flex items-center">
           {router.map((route) => (
             <li
@@ -27,7 +27,7 @@ export function Navigation({}: NavigationProps) {
             <SignOut className="ml-2" />
           </li>
         </ul>
-      </div>
+      </div> */}
       <MobileNav />
     </>
   );

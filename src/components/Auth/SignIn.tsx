@@ -55,11 +55,15 @@ export function SignIn({}: SignInProps) {
         data.password
       );
     } catch (error) {
-      console.error(error);
+      console.log(error);
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Something went wrong. Please try again later.",
+        description: (
+          <div>
+            <p>{JSON.stringify(error)}</p>
+          </div>
+        ),
       });
     } finally {
       setIsLoading(false);

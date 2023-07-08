@@ -13,7 +13,7 @@ import { MoreHorizontal } from "lucide-react";
 export const actionsColumn: ColumnDef<Athlete> = {
   id: "actions",
   header: () => {
-    return <div className="text-right">Actions</div>;
+    return <></>;
   },
   cell: ({ row }) => {
     return (

@@ -11,10 +11,14 @@ import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 
 admin.initializeApp(functions.config().firebase);
+const db = admin.firestore();
 
-export const addUserAccount = functions.auth.user().onCreate((user: any) => {
-  const { uid, email } = user;
-  const db = admin.firestore();
-  const userRef = db.collection("users").doc(uid);
-  return userRef.set({ email });
+export const addUserAccount = functions.auth.user().onCreate((user) => {
+  const userRef = db.collection("users").doc(user.uid);
+  return userRef.set(JSON.parse(JSON.stringify(user)));
+});
+
+export const deleteUserAccount = functions.auth.user().onDelete((user) => {
+  const userRef = db.collection("users").doc(user.uid);
+  return userRef.delete();
 });

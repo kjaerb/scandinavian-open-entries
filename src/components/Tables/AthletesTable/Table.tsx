@@ -30,17 +30,16 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
-import { AddAthlete } from "@/components/Forms/AddAthlete";
 
-interface OrdersTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+interface OrdersTableProps<TAthlete, TValue> {
+  columns: ColumnDef<TAthlete, TValue>[];
+  data: TAthlete[];
 }
 
-export function AthleteTable<TData, TValue>({
+export function AthleteTable<TAthlete, TValue>({
   columns,
   data,
-}: OrdersTableProps<TData, TValue>) {
+}: OrdersTableProps<TAthlete, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [nameFilters, setNameFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -63,7 +62,7 @@ export function AthleteTable<TData, TValue>({
   });
 
   return (
-    <div className="px-2 py-2">
+    <div className="px-2 py-2 ">
       <div>
         <p>
           {data.length} athlete{data.length > 1 && "s"}
@@ -107,13 +106,13 @@ export function AthleteTable<TData, TValue>({
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="rounded-md border shadow-md w-full mb-4">
+      <div className="rounded-md border shadow-md mb-4">
         <Table>
-          <TableHeader>
+          <TableHeader className="">
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
+              <TableRow className="" key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id}>
+                  <TableHead className="" key={header.id}>
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -125,15 +124,16 @@ export function AthleteTable<TData, TValue>({
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody>
+          <TableBody className="">
             {table.getRowModel().rows.length
               ? table.getRowModel().rows.map((row, i) => (
                   <TableRow
+                    className=""
                     key={row.id + i}
                     data-state={row.getIsSelected() && "selected"}
                   >
                     {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
+                      <TableCell className="" key={cell.id}>
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext()
